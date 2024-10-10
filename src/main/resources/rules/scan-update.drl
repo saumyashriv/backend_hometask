@@ -1,0 +1,20 @@
+import com.example.backend_hometask.Payload.StatusCheckResponse;
+global com.example.backend_hometask.Payload.StatusUpdateResponse statusUpdateResponse;
+
+dialect "mvel"
+
+rule "File Scan In Progress"
+    when
+        StatusCheckResponse(responseCode == 202)
+    then
+        System.out.println("==========File Scan In Progress=============");
+        statusUpdateResponse.setResponse("==========File Scan In Progress=============");
+end
+
+rule "Vulnerability threshold"
+    when
+        StatusCheckResponse(vulnerabilitiesFound >= "10")
+    then
+        System.out.println("==========Sending mail to customer=============");
+         statusUpdateResponse.setResponse("==========Sending mail to customer=============");
+end
